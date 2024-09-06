@@ -1,1 +1,12 @@
+### Node.js-specifika filer
 node_modules/
+
+### Byggartefakter  
+## -- dist/, build/: Kataloger som innehåller byggfiler från en bundler som Webpack eller Parcel. De genereras från källkoden och bör inte checkas in.
+## -- coverage/: Katalog som genereras av testverktyg som rapporterar testtäckning.
+# dist/
+# build/
+# coverage/
+
+### Miljövariabler
+.env
