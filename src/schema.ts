@@ -4,7 +4,7 @@ id: ID!
 name: String!
 email: String!
 ## <------Relatives------->
-posts: [Post!]
+# posts: [Post!]
 }
 type Post {
   id: ID!
@@ -14,7 +14,7 @@ type Post {
   created_at: String!
   nsfw: Boolean!
 ## <------Relatives------->
-  user: User!
+  # user: User!
 }
 ## <-------------------------------Queries -------------------------->
 type Query {
