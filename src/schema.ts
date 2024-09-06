@@ -11,7 +11,7 @@ type Post {
   title: String!
   description: String!
   user_id: Int! # behövs denna? JA!!!
-  created_at: String!
+  created_at: String! # Representerar TIMESTAMP som en ISO 8601-sträng
   nsfw: Boolean!
 ## <------Relatives------->
   # user: User!

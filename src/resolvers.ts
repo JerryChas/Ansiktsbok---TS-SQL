@@ -96,7 +96,9 @@ const createResolvers = (pool: Pool) => ({
     ) => {
       const { title, description, user_id, nsfw } = args.post;
       const result = await pool.query(
-        "INSERT INTO posts(title, description, user_id, nsfw) VALUES($1, $2, $3, $4) RETURNING *",
+        `INSERT INTO posts(title, description, user_id, nsfw) 
+        VALUES($1, $2, $3, $4) 
+        RETURNING *`,
         [title, description, user_id, nsfw]
       );
       return result.rows[0];
