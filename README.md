@@ -1,75 +1,123 @@
-# Användarhantering API ฅᨐฅ
 
-Detta projekt är en Node.js-applikation som tillhandahåller ett RESTful API för att hantera användare. Du kan visa, skapa, uppdatera och radera användare i en databas. Applikationen är skriven i TypeScript och använder `express` som webbramverk och `pg` för att ansluta till en PostgreSQL-databas.
+# GraphQL API för CRUD på Users och Posts
 
-## Förkrav
+Detta är ett enkelt GraphQL API för att hantera CRUD-operationer (Create, Read, Update, Delete) för användare och inlägg (posts). API:et tillåter skapande, läsning, uppdatering och borttagning av användare och inlägg med PostgreSQL som databas.
 
-För att köra detta projekt, se till att du har följande installerat på din maskin:
+## CRUD Funktioner
 
-- [Node.js](https://nodejs.org/) (version 14 eller senare)
-- [npm](https://www.npmjs.com/) (Node Package Manager, kommer med Node.js)
-- [PostgreSQL](https://www.postgresql.org/) (version 12 eller senare)
+### Queries (Läs data)
+- **users** - Hämta alla användare.
+- **user(id: Int)** - Hämta en specifik användare baserat på ID.
+- **posts** - Hämta alla inlägg.
+- **post(id: Int)** - Hämta ett specifikt inlägg baserat på ID.
 
-1. **Kör applikationen:**
+### Mutations (Skapa, Uppdatera och Radera data)
+#### Users
+- **createUser(user: UserInput)** - Skapa en ny användare.
+  - Exempel:
+    ```graphql
+    mutation {
+      createUser(user: {name: "Alice", email: "alice@example.com"}) {
+        id
+        name
+        email
+      }
+    }
+    ```
 
-   Starta servern med följande kommando:
+- **updateUser(id: Int, edits: UserEditInput)** - Uppdatera en användare baserat på ID.
+  - Exempel:
+    ```graphql
+    mutation {
+      updateUser(id: 1, edits: {name: "Alice Updated", email: "alice.new@example.com"}) {
+        id
+        name
+        email
+      }
+    }
+    ```
 
-```bash
-   npm run dev
-```
+- **deleteUser(id: Int)** - Radera en användare baserat på ID.
+  - Exempel:
+    ```graphql
+    mutation {
+      deleteUser(id: 1) {
+        id
+        name
+      }
+    }
+    ```
 
-   Servern kommer nu att köras på `http://localhost:3000`.
+#### Posts
+- **createPost(post: PostInput)** - Skapa ett nytt inlägg.
+  - Exempel:
+    ```graphql
+    mutation {
+      createPost(post: {title: "New Post", description: "Description of the post", user_id: 1, nsfw: false}) {
+        id
+        title
+        description
+      }
+    }
+    ```
 
-## API-endpoints
+- **updatePost(id: Int, edits: PostEditInput)** - Uppdatera ett inlägg baserat på ID.
+  - Exempel:
+    ```graphql
+    mutation {
+      updatePost(id: 1, edits: {title: "Updated Post", description: "Updated description", nsfw: false}) {
+        id
+        title
+        description
+      }
+    }
+    ```
 
-Här är en lista över alla API-endpoints som finns tillgängliga i detta projekt:
+- **deletePost(id: Int)** - Radera ett inlägg baserat på ID.
+  - Exempel:
+    ```graphql
+    mutation {
+      deletePost(id: 1) {
+        id
+        title
+      }
+    }
+    ```
 
-### 1. Hämta alla användare
+## Databasstruktur
 
-- **URL:** `/api/users`
-- **Metod:** `GET`
-- **Beskrivning:** Hämtar alla användare från databasen.
+### Users
 
-### 2. Skapa en ny användare
+| Fält      | Typ       |
+|-----------|-----------|
+| `id`      | Integer (PK) |
+| `name`    | Text      |
+| `email`   | Text      |
 
-- **URL:** `/api/users`
-- **Metod:** `POST`
-- **Beskrivning:** Skapar en ny användare med namn och e-post.
-- **Body:**
-  ```json
-  {
-    "name": "Ditt Namn",
-    "email": "din.email@example.com"
-  }
-  ```
+### Posts
 
-### 3. Uppdatera en användare
+| Fält          | Typ       |
+|---------------|-----------|
+| `id`          | Integer (PK) |
+| `title`       | Text      |
+| `description` | Text      |
+| `user_id`     | Integer (FK) |
+| `nsfw`        | Boolean   |
 
-- **URL:** `/api/users/:id`
-- **Metod:** `PUT`
-- **Beskrivning:** Uppdaterar en användare baserat på användar-ID.
-- **Parametrar:**
-  - `id`: Användarens ID som ska uppdateras.
-- **Body:**
-  ```json
-  {
-    "name": "Nytt Namn",
-    "email": "ny.email@example.com"
-  }
-  ```
+## Installation och Användning
 
-### 4. Radera en användare
+1. **Klona repot** och installera beroenden:
 
-- **URL:** `/api/users/:id`
-- **Metod:** `DELETE`
-- **Beskrivning:** Raderar en användare baserat på användar-ID.
-- **Parametrar:**
-  - `id`: Användarens ID som ska raderas.
+    ```bash
+    git clone <repo-url>
+    cd <repo-folder>
+    npm install
+    ```
 
-## Felhantering
+2. **Kör servern**:
 
-- Om en felaktig begäran skickas till servern kommer ett lämpligt felmeddelande att returneras tillsammans med en statuskod som indikerar felet.
+    ```bash
+    npm start
+    ```
 
-## Licens
-
-Detta projekt är licensierat under MIT-licensen. Se filen [LICENSE](LICENSE) för mer information.
+Du kan nu använda en GraphQL-klient som [Insomnia](https://insomnia.rest/) eller [Apollo Client](https://www.apollographql.com/docs/react/) för att göra CRUD-förfrågningar till ditt API.
