@@ -1,12 +1,55 @@
-### Node.js-specifika filer
+# Node-moduler
 node_modules/
 
-### Byggartefakter  
-## -- dist/, build/: Kataloger som innehåller byggfiler från en bundler som Webpack eller Parcel. De genereras från källkoden och bör inte checkas in.
-## -- coverage/: Katalog som genereras av testverktyg som rapporterar testtäckning.
-# dist/
-# build/
-# coverage/
+# Loggfiler
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-### Miljövariabler
+# Byggmappar
+build/
+dist/
+
+# ESLint cache
+.eslintcache
+
+# Dependency directories
+jspm_packages/
+
+# Typescript cache
+*.tsbuildinfo
+
+# .env filer
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignorera lock-filer från pakethanterare
+package-lock.json
+yarn.lock
+
+# IDE och redigerare specifika filer
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# MacOS-specifika systemfiler
+*.DS_Store
+
+# Loggar
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage-mapp som skapas av testverktyg som Jest
+coverage/
+
+# Temporary files
+*.swp
+*.swo
