@@ -2,6 +2,12 @@ import express from 'express';
 import userRoutes from './routes/userRoutes';
 import helmet from 'helmet'
 import cors from 'cors'
+import registerRoute from './routes/registerUser.js'
+import authRoutes from './routes/auth.js'
+import "./strategies/local-strategy.js";
+import "./strategies/githubStrategy.js";
+import passport from 'passport';
+import session from 'express-session'
 
 const app = express();
 const PORT = 3000;
@@ -23,9 +29,30 @@ const corsOptions = {
         ? ["Content-Type", "Authorization"]
         : ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"]
 };
+
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) throw new Error("SESSION_SECRET must be set");
+
+app.use(session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === "production", // Set to true if using HTTPS
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000, // 1 hour
+    },
+}))
+
 app.use(cors(corsOptions));
 
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use('/api/users', userRoutes)
+app.use('/api', registerRoute)
+app.use('/api', authRoutes)
+
 
 app.get('/', (req, res) => {
     res.cookie('hello', 'world', { maxAge: 60000, sameSite: true, secure: true });
